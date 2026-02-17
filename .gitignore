@@ -1,0 +1,6 @@
+*.log
+*.pyc
+__pycache__/
+djangoenv/
+.env
+db.sqlite3
