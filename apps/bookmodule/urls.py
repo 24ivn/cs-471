@@ -1,8 +1,12 @@
 from django.urls import path
-from . import views # استيراد ملف views من نفس المجلد [cite: 136]
+from . import views
 
 urlpatterns = [
-    path('', views.index), # المهمة 1 و 5 [cite: 138]
-    path('index2/<int:val1>/', views.index2), # المهمة 3 [cite: 141]
-    path('<int:bookId>', views.viewbook), # المهمة 7 [cite: 171]
+    path('', views.index, name="books.index"), 
+    
+    path('list_books/', views.list_books, name="books.list_books"), 
+    
+    path('<int:bookId>/', views.viewbook, name="books.view_one_book"), 
+    
+    path('aboutus/', views.aboutus, name="books.aboutus"), 
 ]

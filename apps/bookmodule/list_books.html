@@ -1,0 +1,17 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block title %} قائمة الكتب {% endblock title %}
+
+{% block content %}
+    <h1>List of Books</h1>
+    <hr>
+    <a href="{% url 'books.view_one_book' 123 %}"><h2>Internet & World Wide Web</h2></a>
+    <img src="{% static 'book1.jpg' %}" width="200" height="200">
+    <hr>
+    <h2>C++ How to Program</h2>
+    <img src="{% static 'book2.jpg' %}" width="200" height="200">
+    <hr>
+    <h2>Other Books</h2>
+    <img src="{% static 'book3.jpg' %}" width="200" height="200">
+{% endblock content %}
