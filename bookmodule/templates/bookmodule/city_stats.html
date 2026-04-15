@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>City Statistics</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { color: #2c3e50; }
+        ul { list-style-type: square; }
+        li { margin-bottom: 10px; font-size: 1.1em; }
+        .count { color: #e67e22; font-weight: bold; }
+        .back-link { margin-top: 20px; display: block; text-decoration: none; color: #3498db; }
+    </style>
+</head>
+<body>
+    <h1>Number of Students in Each City</h1>
+    
+    <ul>
+        {% for city in cities %}
+            <li>
+                <strong>{{ city.city }}:</strong> 
+                <span class="count">{{ city.student_count }}</span> Students
+            </li>
+        {% empty %}
+            <li>No data available. Please add some cities and students first.</li>
+        {% endfor %}
+    </ul>
+
+    <hr>
+    <a href="/books/search" class="back-link">Back to Search Page</a>
+    <p>© 2026 - Rana's Project</p>
+</body>
+</html>

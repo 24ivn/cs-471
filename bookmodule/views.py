@@ -1,14 +1,13 @@
 from django.shortcuts import render
-from .models import Book # استيراد الموديل [cite: 42]
+from .models import Book, Address, Student 
+from django.db.models import Q, Count, Sum, Avg, Max, Min 
 
-# --- 1. البحث (دمج Lab 6 و Lab 7) ---
 def search(request):
     if request.method == "POST":
         keyword = request.POST.get('keyword', '').strip()
         isTitle = request.POST.get('option1')
         isAuthor = request.POST.get('option2')
         
-        # استخدام ORM للبحث الحقيقي في قاعدة البيانات [cite: 46]
         if isTitle and isAuthor:
             books = Book.objects.filter(title__icontains=keyword) | Book.objects.filter(author__icontains=keyword)
         elif isTitle:
@@ -23,26 +22,20 @@ def search(request):
     return render(request, 'bookmodule/search.html')
 
 
-# --- 2. الاستعلام البسيط (Task 3) [cite: 40] ---
 def simple_query(request):
-    # استرجاع الكتب التي يحتوي عنوانها على 'and' [cite: 46]
     mybooks = Book.objects.filter(title__icontains='and')
     return render(request, 'bookmodule/bookList.html', {'books': mybooks})
 
 
-# --- 3. الاستعلام المعقد (Task 4) [cite: 59] ---
 def lookup_query(request):
-    # شروط البحث: المؤلف موجود، العنوان فيه 'and'، الطبعة >= 2، السعر > 100 [cite: 63, 64]
-    mybooks = Book.objects.filter(author__isnull=False).filter(title__icontains='and').filter(edition__gte=2).exclude(price__lte=100)[:10]
+    mybooks = Book.objects.filter(author__isnull=False).filter(title__icontains='and').filter(edition__gte=2).exclude(price__lte=100)
     
     if len(mybooks) >= 1:
         return render(request, 'bookmodule/bookList.html', {'books': mybooks})
     else:
-        # قمنا بتعديلها لتوجيهك لصفحة البحث (search) بدلاً من index لتجنب الأخطاء
         return render(request, 'bookmodule/search.html')
 
 
-# --- 4. الدوال المساعدة لضمان عمل كافة الروابط ---
 def index(request):
     return render(request, 'bookmodule/index.html')
 
@@ -57,3 +50,39 @@ def listing_view(request):
 
 def tables_view(request):
     return render(request, 'bookmodule/tables.html')
+
+def lab8_task1(request):
+    books = Book.objects.filter(Q(price__lte=80)) 
+    return render(request, 'bookmodule/bookList.html', {'books': books})
+
+def lab8_task2(request):
+    # استخدام & للربط بين الشروط و | للاختيار بين العنوان أو المؤلف 
+    query = Q(edition__gt=3) & (Q(title__icontains='qu') | Q(author__icontains='qu')) 
+    books = Book.objects.filter(query)
+    return render(request, 'bookmodule/bookList.html', {'books': books})
+
+def lab8_task3(request):
+    # استخدام ~ للنفي (NOT) 
+    query = Q(edition__lte=3) & ~(Q(title__icontains='qu') | Q(author__icontains='qu')) 
+    books = Book.objects.filter(query)
+    return render(request, 'bookmodule/bookList.html', {'books': books})
+
+def lab8_task4(request):
+    books = Book.objects.all().order_by('title') 
+    return render(request, 'bookmodule/bookList.html', {'books': books})
+
+def lab8_task5(request):
+    stats = Book.objects.aggregate(
+        total_books=Count('id'),
+        total_price=Sum('price'),
+        avg_price=Avg('price'),
+        max_price=Max('price'),
+        min_price=Min('price')
+    ) 
+    return render(request, 'bookmodule/lab8_stats.html', {'stats': stats})
+
+# في نهاية ملف bookmodule/views.py
+def lab8_task7(request):
+    # استخدام annotate لحساب عدد الطلاب في كل مدينة
+    cities = Address.objects.annotate(student_count=Count('student'))
+    return render(request, 'bookmodule/city_stats.html', {'cities': cities})
