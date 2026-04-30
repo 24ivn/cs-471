@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lab 9 - Task 2</title>
+</head>
+<body>
+    <h1>Publishers Total Book Stock</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Publisher Name</th>
+                <th>Total Stock (Quantity)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pub in publishers %}
+            <tr>
+                <td>{{ pub.name }}</td>
+                <td>{{ pub.total_stock|default:0 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <a href="/books/lab9/task1">Go back to Task 1</a>
+</body>
+</html>

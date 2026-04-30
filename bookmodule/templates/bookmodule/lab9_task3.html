@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lab 9 - Task 3</title>
+</head>
+<body>
+    <h1>Oldest Book Published per Publisher</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Publisher Name</th>
+                <th>Oldest Book Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pub in publishers %}
+            <tr>
+                <td>{{ pub.name }}</td>
+                <td>{{ pub.oldest_book_date|date:"Y-m-d"|default:"No books" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <a href="/books/lab9/task1">Go back to Task 1</a>
+</body>
+</html>

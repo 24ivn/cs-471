@@ -1,0 +1,19 @@
+<h1>Books Availability Percentage</h1>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Quantity</th>
+            <th>Availability %</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for book in books %}
+        <tr>
+            <td>{{ book.title }}</td>
+            <td>{{ book.quantity }}</td>
+            <td>{{ book.availability_pct|stringformat:".2f" }}%</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
