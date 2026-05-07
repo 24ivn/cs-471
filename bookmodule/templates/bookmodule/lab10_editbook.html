@@ -1,0 +1,11 @@
+<h2>Edit Book: {{ book.title }}</h2>
+<form method="POST">
+    {% csrf_token %}
+    <p>Title: <input type="text" name="title" value="{{ book.title }}" required></p>
+    <p>Price: <input type="number" step="0.01" name="price" value="{{ book.price }}" required></p>
+    <p>Quantity: <input type="number" name="quantity" value="{{ book.quantity }}" required></p>
+    <p>Publish Date: <input type="date" name="pubdate" value="{{ book.pubdate|date:'Y-m-d' }}" required></p>
+    <button type="submit">Update Book</button>
+</form>
+<br>
+<a href="/books/lab9_part1/listbooks">Cancel</a>

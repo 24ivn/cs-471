@@ -1,0 +1,17 @@
+<h2>Books List - Lab 10 (Part 2)</h2>
+<a href="/books/lab9_part2/addbook">+ Add New Book (Django Form)</a>
+<table border="1" cellpadding="5" style="margin-top: 20px;">
+    <tr>
+        <th>Title</th><th>Price</th><th>Actions</th>
+    </tr>
+    {% for book in books %}
+    <tr>
+        <td>{{ book.title }}</td>
+        <td>{{ book.price }}</td>
+        <td>
+            <a href="/books/lab9_part2/editbook/{{ book.id }}">Edit</a> | 
+            <a href="/books/lab9_part2/deletebook/{{ book.id }}" onclick="return confirm('Are you sure?')">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
