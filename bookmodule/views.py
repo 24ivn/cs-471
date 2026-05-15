@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Book, Publisher, Author
+from .models import Book, Publisher, Author, Student, Gallery # أضفنا Student و Gallery
 from django.db.models import Sum, F, ExpressionWrapper, FloatField, Min
-from .forms import BookForm 
+from .forms import BookForm, StudentForm, GalleryForm # أضفنا فورم الطلاب والصور
 from django.contrib.auth.decorators import login_required 
 from django.contrib import messages 
 
+# --- Lab 9 Tasks ---
 
 @login_required(login_url='/users/login')
 def lab9_task1(request):
@@ -28,6 +29,7 @@ def lab9_task3(request):
     return render(request, 'bookmodule/lab9_task3.html', {'publishers': publishers})
 
 
+# --- Lab 10 Part 1 (Manual CRUD) ---
 
 @login_required(login_url='/users/login')
 def lab10_listbooks(request):
@@ -45,7 +47,7 @@ def lab10_addbook(request):
         
         publisher_obj = Publisher.objects.get(id=pub_id)
         Book.objects.create(title=t, price=p, quantity=q, pubdate=pd, publisher=publisher_obj)
-        messages.success(request, "Book added successfully (Part 1)!") # رسالة نجاح
+        messages.success(request, "Book added successfully (Part 1)!")
         return redirect('/books/lab10/listbooks')
     
     publishers = Publisher.objects.all()
@@ -72,6 +74,40 @@ def lab10_deletebook(request, id):
     return redirect('/books/lab10/listbooks')
 
 
+# --- Lab 11 Tasks (Students & Gallery) ---
+
+@login_required(login_url='/users/login')
+def lab11_list_students(request):
+    students = Student.objects.all()
+    return render(request, 'bookmodule/lab11_list_students.html', {'students': students})
+
+@login_required(login_url='/users/login')
+def lab11_add_student(request):
+    if request.method == "POST":
+        form = StudentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Student added successfully with addresses!")
+            return redirect('/books/lab11/students')
+    else:
+        form = StudentForm()
+    return render(request, 'bookmodule/lab11_add_student.html', {'form': form})
+
+@login_required(login_url='/users/login')
+def lab11_gallery(request):
+    if request.method == "POST":
+        form = GalleryForm(request.POST, request.FILES) # التعامل مع ملفات الصور
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Image uploaded successfully!")
+            return redirect('/books/lab11/gallery')
+    else:
+        form = GalleryForm()
+    images = Gallery.objects.all()
+    return render(request, 'bookmodule/lab11_gallery.html', {'form': form, 'images': images})
+
+
+# --- Lab 10 Part 2 (Django Forms CRUD) ---
 
 @login_required(login_url='/users/login')
 def lab10_listbooks2(request):

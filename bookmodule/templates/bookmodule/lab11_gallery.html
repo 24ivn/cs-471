@@ -1,0 +1,17 @@
+<h3>Upload Image </h3>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Upload</button>
+</form>
+
+<hr>
+<h3>Gallery</h3>
+<div style="display: flex; gap: 10px;">
+    {% for img in images %}
+        <div>
+            <img src="{{ img.picture.url }}" width="150">
+            <p>{{ img.title }}</p>
+        </div>
+    {% endfor %}
+</div>

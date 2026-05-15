@@ -1,0 +1,7 @@
+<h3>Add Student </h3>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save Student</button>
+</form>
+<a href="/books/lab11/students">Back to List</a>

@@ -15,4 +15,7 @@ urlpatterns = [
     path('lab9_part2/addbook', views.lab10_addbook2),
     path('lab9_part2/editbook/<int:id>', views.lab10_editbook2),
     path('lab9_part2/deletebook/<int:id>', views.lab10_deletebook2),
+    path('lab11/students', views.lab11_list_students),
+    path('lab11/add_student', views.lab11_add_student),
+    path('lab11/gallery', views.lab11_gallery),
 ]
