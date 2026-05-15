@@ -1,6 +1,5 @@
 from django.db import models
 
-# --- جداولك القديمة (لا نغيرها عشان مشاريعك السابقة) ---
 class Publisher(models.Model):
     name = models.CharField(max_length=200)
     location = models.CharField(max_length=300)
@@ -25,9 +24,7 @@ class Book(models.Model):
         return self.title
 
 
-# --- إضافات Lab 11 (الجديدة) ---
 
-# Task 1 & 2: العناوين والطلاب
 class Address(models.Model):
     city = models.CharField(max_length=100)
     street = models.CharField(max_length=100)
@@ -39,16 +36,14 @@ class Student(models.Model):
     name = models.CharField(max_length=100)
     age = models.IntegerField()
     # Task 2: Many-to-Many relation
-    # الطالب الواحد يمكن أن يكون له أكثر من عنوان، والعنوان الواحد قد يسكنه أكثر من طالب
     addresses = models.ManyToManyField(Address) 
 
     def __str__(self):
         return self.name
 
-# Task 3: جدول لرفع الصور (Gallery)
 class Gallery(models.Model):
     title = models.CharField(max_length=100)
-    picture = models.ImageField(upload_to='images/') # هذا الحقل يتطلب مكتبة Pillow
+    picture = models.ImageField(upload_to='images/') 
 
     def __str__(self):
         return self.title

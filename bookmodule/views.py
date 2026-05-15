@@ -1,11 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Book, Publisher, Author, Student, Gallery # أضفنا Student و Gallery
+from .models import Book, Publisher, Author, Student, Gallery 
 from django.db.models import Sum, F, ExpressionWrapper, FloatField, Min
-from .forms import BookForm, StudentForm, GalleryForm # أضفنا فورم الطلاب والصور
+from .forms import BookForm, StudentForm, GalleryForm 
 from django.contrib.auth.decorators import login_required 
 from django.contrib import messages 
 
-# --- Lab 9 Tasks ---
 
 @login_required(login_url='/users/login')
 def lab9_task1(request):
@@ -29,7 +28,6 @@ def lab9_task3(request):
     return render(request, 'bookmodule/lab9_task3.html', {'publishers': publishers})
 
 
-# --- Lab 10 Part 1 (Manual CRUD) ---
 
 @login_required(login_url='/users/login')
 def lab10_listbooks(request):
@@ -74,7 +72,6 @@ def lab10_deletebook(request, id):
     return redirect('/books/lab10/listbooks')
 
 
-# --- Lab 11 Tasks (Students & Gallery) ---
 
 @login_required(login_url='/users/login')
 def lab11_list_students(request):
@@ -96,7 +93,7 @@ def lab11_add_student(request):
 @login_required(login_url='/users/login')
 def lab11_gallery(request):
     if request.method == "POST":
-        form = GalleryForm(request.POST, request.FILES) # التعامل مع ملفات الصور
+        form = GalleryForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             messages.success(request, "Image uploaded successfully!")
@@ -107,7 +104,6 @@ def lab11_gallery(request):
     return render(request, 'bookmodule/lab11_gallery.html', {'form': form, 'images': images})
 
 
-# --- Lab 10 Part 2 (Django Forms CRUD) ---
 
 @login_required(login_url='/users/login')
 def lab10_listbooks2(request):
